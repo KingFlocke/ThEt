@@ -1,0 +1,2 @@
+header.o: header.cpp header.h component.h
+header.do: header.cpp header.h component.h

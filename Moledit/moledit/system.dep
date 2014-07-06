@@ -1,0 +1,4 @@
+system.o: system.cpp err.h system.h header.h component.h mark.h \
+ molecule.h quaternion.h randomArray.h random1.cpp
+system.do: system.cpp err.h system.h header.h component.h mark.h \
+ molecule.h quaternion.h randomArray.h random1.cpp

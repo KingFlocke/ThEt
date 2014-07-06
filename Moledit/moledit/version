@@ -1,0 +1,3 @@
+VERSION = 
+REVISION = 
+SVNDEV = -D'REV=""' -D'VER=""'

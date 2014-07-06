@@ -1,0 +1,2 @@
+err.o: err.cpp err.h
+err.do: err.cpp err.h

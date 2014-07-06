@@ -1,0 +1,2 @@
+component.o: component.cpp component.h
+component.do: component.cpp component.h

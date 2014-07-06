@@ -1,0 +1,2 @@
+mark.o: mark.cpp mark.h molecule.h quaternion.h
+mark.do: mark.cpp mark.h molecule.h quaternion.h

@@ -1,0 +1,31 @@
+# vtk DataFile Version 3.1 
+vtk output 
+ASCII 
+DATASET UNSTRUCTURED_GRID 
+POINTS 8 FLOAT 
+0 0 0 
+0 0 18 
+0 55 0 
+0 55 18 
+18 0 0 
+18 0 18 
+18 55 0 
+18 55 18 
+
+CELLS 12 36 
+2 0 1 
+2 0 2 
+2 0 4 
+2 6 2 
+2 6 4 
+2 6 7 
+2 3 1 
+2 3 2 
+2 3 7 
+2 5 1 
+2 5 4 
+2 5 7 
+
+CELL_TYPES 12 
+3 3 3 3 3 3 3 3 3 3 3 3 
+

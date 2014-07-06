@@ -1,0 +1,4 @@
+moledit.o: moledit.cpp moledit.h system.h header.h component.h mark.h \
+ molecule.h quaternion.h err.h
+moledit.do: moledit.cpp moledit.h system.h header.h component.h mark.h \
+ molecule.h quaternion.h err.h

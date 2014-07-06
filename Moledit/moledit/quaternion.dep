@@ -1,0 +1,2 @@
+quaternion.o: quaternion.cpp quaternion.h constants.h
+quaternion.do: quaternion.cpp quaternion.h constants.h

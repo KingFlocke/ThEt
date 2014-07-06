@@ -1,0 +1,2 @@
+randomArray.o: randomArray.cpp randomArray.h
+randomArray.do: randomArray.cpp randomArray.h

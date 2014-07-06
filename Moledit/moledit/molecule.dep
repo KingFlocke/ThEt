@@ -1,0 +1,2 @@
+molecule.o: molecule.cpp molecule.h quaternion.h
+molecule.do: molecule.cpp molecule.h quaternion.h

@@ -1,0 +1,54 @@
+    1  ./moledit 4000 58 400 water.xdr 
+    2  ll
+    3  vim water.xdr
+    4  cp water.xdr ../ls1_2436
+    5  cd ../ls1_2436
+    6  l ..
+    7  cp ../tip4p.cfg .
+    8  cd ../ls1_243605 0.0063514985 0.025030363 0 0 0
+    9  27 1    2.5180839 0.1 31.535091 -0 -0 0 -0.63390503 0.59182329 0.4965661 0.036492524 0 0 0
+   10  l
+   11  mv tip4p.cfg water.xdr src
+   12  cd src
+   13  l
+   14  vim tip4p.cfg
+   15  ls
+   16  ./MarDyn.PAR_RELEASE tip4p.cfg 1000 out
+   17  ls
+   18  ll
+   19  vim visitt-000.vis
+   20  ls
+   21  rm visitt-0*
+   22  vim tip4p.cfg
+   23  mpirun -np 4 ./MarDyn.PAR_RELEASE tip4p.cfg 1000 out
+   24  mpirun -np 2 ./MarDyn.PAR_RELEASE tip4p.cfg 1000 out
+   25  vim Makefile 
+   26  vim tip4p.cfg
+   27  mpirun -np 2 ./MarDyn.PAR_RELEASE tip4p.cfg 1000 out
+   28  vim water.xdr 
+   29  vim *cfg
+   30  mpirun -np 4 ./MarDyn.PAR_RELEASE tip4p.cfg 1000 out
+   31  history
+   32  ls
+   33  vim visitt-0.vis
+   34  ls
+   35  vim visitt-0.vis
+   36  ls
+   37  vim *cfg
+   38  mpirun -np 1 ./MarDyn.PAR_RELEASE tip4p.cfg 100 out
+   39  ls
+   40  cat visitt-* > visi.vis
+   41  cat visitt-* >> visi.vis
+   42  rm visi.vis
+   43  cat visitt-* >> visi.vis
+   44  ls
+   45  vim visi.vis
+   46  ip addr
+   47  ls
+   48  rm visi.vis 
+   49  cat visitt-?.vis >> visi.vis
+   50  ls visitt-?.vis
+   51  history --help
+   52  history 1000
+   53  history 
+   54  history > hist2

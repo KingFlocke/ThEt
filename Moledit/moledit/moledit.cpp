@@ -12,6 +12,7 @@
 #include <string>
 #include <cmath>
 #include <stdlib.h>
+#include <vector>
 
 #include "err.h"
 
@@ -23,71 +24,102 @@ class eSizeSmallerNumbertrue{};
 using namespace std;
 
 int main(int argc, char** argv) {
-	const char* usage = "usage: moledit <filename> <outfilenamePrefix> <nShape (1:dots, 2:spheres)> \n\n";
-	if(argc != 4)
+	const char* usage = "\nusage WITH *.xdr-file:\n moledit <filename> <outfilenamePrefix> <nShape (1:dots, 2:spheres)> \n usage WITHOUT *.xdr-file:\n moledit <number of molecules> <density> <temperature> <outfilenamePrefix> <nShape (1:dots, 2:spheres)>\n\n";
+	if(argc != 4 || argc != 6)
 	{
 		cout << usage;
 		return 1;
 	}
+	//ausführen MIT vorhandener xdr-Datei
+	else if(argc == 4)
+	  {
+	    ////System erstellen
+	    System sys;
 
-	//srand(time(NULL)); //initialisiert den pseudo-random number generator
+	    //lesen der Kommandozeilenargumente
+	    char* infilename = argv[1];
+	    char* outfilename = argv[2];
+	    int nShape = atoi(argv[3]);
 
-	//int numberMolecules = atof(argv[1]);
-	//double density = atof(argv[2])*6.02214129e-4;//1/A°^3
-	//double temperature = atof(argv[3]);//K
-	char* infilename = argv[1];
-	char* outfilename = argv[2];
-	int nShape = atoi(argv[3]);
+	    //rausschreiben
+	    sys.fileread(infilename);
+	    sys.filewriteVTK(outfilename,"overwrite", nShape);
+	  }	
+	//ausführen OHNE vorhandene xdr-Datei
+	else if(argc == 6)
+	  {
+	    string components[] = {"n2", "o2", "c2h6", "1clj", "1cljts", "2clj_l*1", "ar", "eox", "azeton", "2cljdq", "tip4p2005", "toloul", "h2_buch94"};
+	    cout << "You chooses to create a xdr-file.\nPlease choose the number of your component from one of the listed!" << endl;
+	    for(unsigned int i=0; i < sizeof(components)/sizeof(*components); i++)
+	      {
+	        cout << i << ": " << components[i] << endl;
+	      }
+	    int comp;
+	    cout << "Your choice:";
+	    cin >> comp;
+	    
+	    srand(time(NULL)); //initialisiert den pseudo-random number generator
 
-	////Bezugsgrößen (normalerweise epsilon, sigma, Masse einer Komponente)
-	////Standard vom mader-Programm
-	//double refEnergy = 1;//K
-	//double refLength = 1;//A°
-	////double refMass = 14.007; //u
-	//double refMass = 1;//u
+	    int numberMolecules = atof(argv[1]);
+	    double density = atof(argv[2])*6.02214129e-4;//1/A°^3
+	    double temperature = atof(argv[3]);//K
+	    char* outfilename = argv[4];
+	    int nShape = atoi(argv[5]);
 
-	////System erstellen
-	System sys;
-	//try{
-		//System temp(numberMolecules, density, 0, "tip4p2005", refEnergy, refLength, refMass);
-		//Header head = temp.gHeader();
-		//head.sTemperature(temperature/refEnergy);
-		//temp.sHeader(head);
-		//sys = temp;
-	//}
-	//catch (const eNumberMoleculesNotInteger &Exception){
-		//cerr << "Error (System::System): numberMolecules is not an integer. Aborting.";
-		//return 1;
-	//}
-	//catch (const eSizeSmallerNumbertrue &Exception){
-		//cerr << "Error (System::System RandomArray): number of true elements is larger than size of array. Aborting.";
-		//return 1;
-	//}
-	//catch (exception &Exception){
-		//cerr << Exception.what();
-		//return 1;
-	//}
+	    //Bezugsgrößen (normalerweise epsilon, sigma, Masse einer Komponente)
+	    //Standard vom mader-Programm
+	    double refEnergy = 1;//K
+	    double refLength = 1;//A°
+	    //double refMass = 14.007; //u
+	    double refMass = 1;//u
+	    
+	    //System erstellen
+	    System sys;
+	    try
+	      {
+		System temp(numberMolecules, density, 0, components[comp], refEnergy, refLength, refMass);
+		Header head = temp.gHeader();
+		head.sTemperature(temperature/refEnergy);
+		temp.sHeader(head);
+		sys = temp;
+	      }
+	    catch (const eNumberMoleculesNotInteger &Exception)
+	      {
+		cerr << "Error (System::System): numberMolecules is not an integer. Aborting.";
+		return 1;
+	      }
+	    catch (const eSizeSmallerNumbertrue &Exception)
+	      {
+		cerr << "Error (System::System RandomArray): number of true elements is larger than size of array. Aborting.";
+		return 1;
+	      }
+	    catch (exception &Exception)
+	      {
+		cerr << Exception.what();
+		return 1;
+	      }
+	    
+	    //Kommentar (Aufruf) setzen
+	    Header head = sys.gHeader();
+	    head.addExecComment(VER, REV, argc, argv);
+	    sys.sHeader(head);
+	    
+	    //Moleküle austauschen
+	    //Component comp2("azeton", refEnergy, refLength, refMass);
+	    //changeComponentType(sys, 2, 80, comp2, 1, 1);
+	    
+	    //drehen, damit Dichteprofile in y-Richtung aufgezeichnet werden können
+	    //rotateSystem(sysGFG, 2);
+	    
+	    //Relativbewegung eliminieren
+	    //sysGFG.eliminateRelativeMovement();
+	    
+	    //rausschreiben
+	    sys.filewriteVTK(outfilename,"overwrite", nShape);
+	    }
+	
 
-	////Kommentar (Aufruf) setzen
-	//Header head = sys.gHeader();
-	//head.addExecComment(VER, REV, argc, argv);
-	//sys.sHeader(head);
-
-	////Moleküle austauschen
-	//Component comp2("azeton", refEnergy, refLength, refMass);
-	//changeComponentType(sys, 2, 80, comp2, 1, 1);
-
-	//drehen, damit Dichteprofile in y-Richtung aufgezeichnet werden können
-	//rotateSystem(sysGFG, 2);
-
-	//Relativbewegung eliminieren
-	//sysGFG.eliminateRelativeMovement();
-
-	//rausschreiben
-	sys.fileread(infilename);
-	sys.filewriteVTK(outfilename,"overwrite", nShape);
-
-	//Ende
+	  //Ende
 	cout << "finished!" << endl;
 	return 0;
 }

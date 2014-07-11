@@ -13,8 +13,7 @@ error = false;
 
 % check if user choosed a file
 if infilename ~= 0
-    
-    
+        
     % read inputfile
     fprintf('load file...');
     lines = fileread(infilename);
@@ -56,18 +55,16 @@ if infilename ~= 0
         clear lines;
         
         fprintf(' ok\n');
+    
+        %% create graph
+        fprintf('draw graph...');
+        figure;
+        plot(Entries(2, :), Entries(1, :));
+        xlabel('Simulationsschritte');
+        ylabel('Simulationszeit');
+        grid on;
+        fprintf(' ok\n');
     end
-    
-    %% create graph
-    
-    fprintf('draw graph...');
-    figure;
-    plot(Entries(2, :), Entries(1, :));
-    ylabel('Simulationszeit');
-    xlabel('Simulationsschritte');
-    grid on;
-    fprintf(' ok\n');
-    
 else
     fprintf('error: please select an input file.\n');
 end

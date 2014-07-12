@@ -58,10 +58,16 @@ if infilename ~= 0
     
         %% create graph
         fprintf('draw graph...');
-        figure;
-        plot(Entries(2, :), Entries(1, :));
-        xlabel('Simulationsschritte');
-        ylabel('Simulationszeit');
+        scrsz = get(0,'ScreenSize');
+        figure('Position',[1 scrsz(4) scrsz(3) scrsz(4)])
+        plot(Entries(2, :), Entries(1, :), 'b');
+        hold on;
+        plot([Entries(2, 1), Entries(2, numEntries)], [Entries(1, 1), Entries(1, numEntries)], 'g');
+        hold on;
+        title('Computation Time');
+        xlabel('Simulationsschritte / n');
+        ylabel('Simulationszeit / s');
+        legend('Zeit / Schritt', 'linearer Verlauf');
         grid on;
         fprintf(' ok\n');
     end

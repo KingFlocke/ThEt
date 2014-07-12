@@ -63,7 +63,6 @@ if infilename ~= 0
         plot(Entries(2, :), Entries(1, :), 'b');
         hold on;
         plot([Entries(2, 1), Entries(2, numEntries)], [Entries(1, 1), Entries(1, numEntries)], 'g');
-        hold on;
         title('Computation Time');
         xlabel('Simulationsschritte / n');
         ylabel('Simulationszeit / s');

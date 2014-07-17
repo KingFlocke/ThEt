@@ -8,7 +8,10 @@ minEntries = 50;
 %% file handle and cleaning
 
 % get input file interactively
-infilename = uigetfile('*');
+%infilename = uigetfile('*');
+[infilename, PathName, FilterIndex] = uigetfile('*');
+addpath(PathName);
+
 error = false;
 
 % check if user choosed a file
@@ -46,13 +49,27 @@ if infilename ~= 0
     if error == false
         fprintf('read entries into array...');
         Entries = zeros(2, numEntries);
+        componentsLine = strsplit(lines{1});
+        for stringIndex = 1:numel(componentsLine)
+              if strcmp(componentsLine{stringIndex}, 'Simstep')
+                 break
+              end
+        end
+        pattern = '';
+        if stringIndex > 4
+            for compIndex = 1:(stringIndex - 4)
+                pattern = strcat(pattern, componentsLine{compIndex}, ' ');
+            end
+        end
+        
+        pattern = strcat(pattern, '%*s %f %*s Simstep = %u');
         
         for i = 1:numEntries
-           Entries(:, i) = sscanf(lines{i}, '%*s %f %*s Simstep = %u');
+           Entries(:, i) = sscanf(lines{i}, pattern);
         end
         
         % free memory
-        clear lines;
+        %clear lines;
         
         fprintf(' ok\n');
     
